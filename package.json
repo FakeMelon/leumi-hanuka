@@ -1,0 +1,25 @@
+{
+  "name": "leumi-hanuka-2",
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "debug": "^4.1.0",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.0.0",
+    "http-errors": "^1.7.1",
+    "jade": "^1.11.0",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "uuid": "^3.3.2"
+  }
+}

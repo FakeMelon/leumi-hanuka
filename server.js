@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const uuidv4 = require('uuid/v4');
 const fs = require('fs');
+const sizeOf = require('image-size');
 
 const app = express();
 
@@ -53,8 +54,18 @@ app.post('/upload', (req, res, next) => {
 });
 
 app.get('/images', (req, res, next) => {
+    let imagesFolder = `${__dirname}/public/files/`;
+    let images = [];
+    fs.readdirSync(imagesFolder).forEach(imageName => {
+        let dimensions = sizeOf(`${imagesFolder}/${imageName}`);
+        images.push({
+            name: imageName,
+            width: dimensions.width,
+            height: dimensions.height
+        });
+    });
     res.json({
-        imageNames: fs.readdirSync(`${__dirname}/public/files/`)
+        images: images
     });
 });
 

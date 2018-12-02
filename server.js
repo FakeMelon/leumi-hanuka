@@ -8,6 +8,15 @@ const cors = require('cors');
 const uuidv4 = require('uuid/v4');
 const fs = require('fs');
 const sizeOf = require('image-size');
+const admin = require("firebase-admin");
+const serviceAccount = require(`${__dirname}/leumi-hanukkah-firebase-adminsdk-k9802-feef990f95.json`);
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://leumi-hanukkah.firebaseio.com"
+});
+
+const db = admin.database();
 
 const app = express();
 
@@ -67,6 +76,29 @@ app.get('/images', (req, res, next) => {
     res.json({
         images: images
     });
+});
+
+app.get('/login/:group', (req, res, next) => {
+    console.log(req.params);
+    const ref = db.ref(`group${req.params.group}`);
+    ref.transaction((current_value) => {
+        return (current_value || 0) + 1;
+    });
+});
+
+app.get('/checkPass/:pass', (req, res, next) => {
+    let password = req.params.pass;
+    let isAllowed = false;
+    if (password === "1111" || password === "2222" || password === "3333" || password === "4444" || password === "5555") {
+        isAllowed = true;
+        const ref = db.ref(`group${password[0]}`);
+        ref.transaction((current_value) => {
+            return (current_value || 0) + 1;
+        });
+    }
+    res.json({
+        isAllowed: isAllowed
+    })
 });
 
 // catch 404 and forward to error handler
